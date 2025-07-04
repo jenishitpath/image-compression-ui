@@ -1,44 +1,77 @@
-<!-- <form (submit)="uploadImages()">
-  <input type="file" (change)="onFileChange($event)" multiple>
-  <input type="number" [(ngModel)]="width" name="width" placeholder="Width">
-  <input type="number" [(ngModel)]="height" name="height" placeholder="Height">
-  <label>
-    <input type="checkbox" [(ngModel)]="zip" name="zip"> Zip
-  </label>
-  <button type="submit">Upload</button>
-</form> -->
-
 <div class="container">
-  <h2>🖼️ Image Upload & Resize</h2>
+  <h2>🖼️ Image Compression & Resizing Tool</h2>
 
   <form (submit)="uploadImages()" class="upload-form">
+    <!-- File Upload -->
     <div class="form-group">
-      <label>Select Images</label>
+      <label>Select Image(s)</label>
       <input type="file" (change)="onFileChange($event)" multiple accept="image/*" />
     </div>
 
+    <!-- Width & Height -->
     <div class="form-group-inline">
       <label>Width</label>
-      <input type="number" [(ngModel)]="width" name="width" placeholder="e.g. 300" min="1" />
+      <input type="number" [(ngModel)]="width" name="width" min="1" />
 
       <label>Height</label>
-      <input type="number" [(ngModel)]="height" name="height" placeholder="e.g. 300" min="1" />
+      <input type="number" [(ngModel)]="height" name="height" min="1" />
     </div>
 
+    <!-- Format & Quality -->
+    <div class="form-group-inline">
+      <label>Format</label>
+      <select [(ngModel)]="format" name="format">
+        <option value="jpg">JPG</option>
+        <option value="png">PNG</option>
+        <option value="webp">WEBP</option>
+      </select>
+
+      <label>Quality</label>
+      <input type="number" [(ngModel)]="quality" name="quality" min="1" max="100" />
+    </div>
+
+    <!-- Additional Options -->
+    <div class="form-group-inline">
+      <label>Rotate</label>
+      <select [(ngModel)]="rotate" name="rotate">
+        <option [value]="0">None</option>
+        <option [value]="90">90°</option>
+        <option [value]="180">180°</option>
+        <option [value]="270">270°</option>
+      </select>
+
+      <label>Flip</label>
+      <select [(ngModel)]="flip" name="flip">
+        <option [value]="''">None</option>
+        <option value="horizontal">Horizontal</option>
+        <option value="vertical">Vertical</option>
+      </select>
+    </div>
+
+    <div class="form-group-inline">
+      <label>Background Color</label>
+      <input type="text" [(ngModel)]="bgColor" name="bgColor" placeholder="e.g. white, #ff0000" />
+
+      <label>Prefix</label>
+      <input type="text" [(ngModel)]="namePrefix" name="namePrefix" placeholder="e.g. img" />
+    </div>
+
+    <!-- Checkboxes -->
     <div class="form-group">
-      <label>
-        <input type="checkbox" [(ngModel)]="zip" name="zip" />
-        Download as ZIP (for multiple files)
-      </label>
+      <label><input type="checkbox" [(ngModel)]="grayscale" name="grayscale" /> Grayscale</label>
+      <label><input type="checkbox" [(ngModel)]="crop" name="crop" /> Crop</label>
+      <label><input type="checkbox" [(ngModel)]="zip" name="zip" /> Download as ZIP</label>
     </div>
 
-    <button type="submit">🚀 Upload & Process</button>
+    <!-- Submit -->
+    <button type="submit">🚀 Upload & Convert</button>
   </form>
 
+  <!-- Preview -->
   <div *ngIf="files.length > 0" class="preview">
-    <h3>Selected Files:</h3>
+    <h4>📂 Files Selected:</h4>
     <ul>
-      <li *ngFor="let f of files">{{ f.name }}</li>
+      <li *ngFor="let file of files">{{ file.name }}</li>
     </ul>
   </div>
 </div>

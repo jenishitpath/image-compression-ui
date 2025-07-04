@@ -1,72 +1,59 @@
 .container {
-  max-width: 600px;
-  margin: 40px auto;
+  max-width: 700px;
+  margin: auto;
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #fdfdfd;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
   font-family: 'Segoe UI', sans-serif;
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 20px;
   color: #2c3e50;
+  margin-bottom: 20px;
 }
 
 .upload-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .form-group,
 .form-group-inline {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.form-group-inline {
-  flex-direction: row;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
   align-items: center;
 }
 
-input[type="file"],
-input[type="number"] {
+input, select {
   padding: 8px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  width: 100%;
+  font-size: 14px;
 }
 
-input[type="number"] {
-  max-width: 100px;
+input[type="number"], select, input[type="text"] {
+  min-width: 100px;
 }
 
 button {
-  padding: 12px;
   background-color: #007acc;
   color: white;
   border: none;
-  border-radius: 8px;
+  padding: 12px;
   font-size: 16px;
+  border-radius: 8px;
   cursor: pointer;
+  width: 100%;
 }
 
 button:hover {
-  background-color: #005f99;
+  background-color: #005fa3;
 }
 
 .preview {
   margin-top: 24px;
-}
-
-.preview ul {
-  padding-left: 18px;
-}
-
-.preview li {
-  margin-bottom: 4px;
 }
