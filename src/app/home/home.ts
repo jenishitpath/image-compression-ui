@@ -49,6 +49,10 @@ export class Home {
     const files = Array.from(event.target.files);
     this.files = [];
     for (const file of files) {
+      if (!(file as any).type.startsWith('image/')) {
+        alert('Please upload only image files.');
+        continue;
+      }
       const fileWithPreview: any = file;
       fileWithPreview.loading = true;
       const reader = new FileReader();
