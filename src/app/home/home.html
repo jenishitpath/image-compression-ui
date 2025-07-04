@@ -1,0 +1,9 @@
+<form (submit)="uploadImages()">
+  <input type="file" (change)="onFileChange($event)" multiple>
+  <input type="number" [(ngModel)]="width" name="width" placeholder="Width">
+  <input type="number" [(ngModel)]="height" name="height" placeholder="Height">
+  <label>
+    <input type="checkbox" [(ngModel)]="zip" name="zip"> Zip
+  </label>
+  <button type="submit">Upload</button>
+</form>
