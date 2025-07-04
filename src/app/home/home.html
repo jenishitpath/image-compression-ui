@@ -1,4 +1,4 @@
-<form (submit)="uploadImages()">
+<!-- <form (submit)="uploadImages()">
   <input type="file" (change)="onFileChange($event)" multiple>
   <input type="number" [(ngModel)]="width" name="width" placeholder="Width">
   <input type="number" [(ngModel)]="height" name="height" placeholder="Height">
@@ -6,4 +6,39 @@
     <input type="checkbox" [(ngModel)]="zip" name="zip"> Zip
   </label>
   <button type="submit">Upload</button>
-</form>
+</form> -->
+
+<div class="container">
+  <h2>🖼️ Image Upload & Resize</h2>
+
+  <form (submit)="uploadImages()" class="upload-form">
+    <div class="form-group">
+      <label>Select Images</label>
+      <input type="file" (change)="onFileChange($event)" multiple accept="image/*" />
+    </div>
+
+    <div class="form-group-inline">
+      <label>Width</label>
+      <input type="number" [(ngModel)]="width" name="width" placeholder="e.g. 300" min="1" />
+
+      <label>Height</label>
+      <input type="number" [(ngModel)]="height" name="height" placeholder="e.g. 300" min="1" />
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox" [(ngModel)]="zip" name="zip" />
+        Download as ZIP (for multiple files)
+      </label>
+    </div>
+
+    <button type="submit">🚀 Upload & Process</button>
+  </form>
+
+  <div *ngIf="files.length > 0" class="preview">
+    <h3>Selected Files:</h3>
+    <ul>
+      <li *ngFor="let f of files">{{ f.name }}</li>
+    </ul>
+  </div>
+</div>
