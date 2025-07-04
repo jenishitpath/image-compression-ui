@@ -11,32 +11,28 @@ export class Image {
 
   uploadImages(
     files: File[],
-    width: number,
-    height: number,
+    width: number | undefined,
+    height: number | undefined,
     zip: boolean,
-    quality: number,
+    quality: number | undefined,
     format: string,
     grayscale: boolean,
     rotate: number,
     flip: string,
-    crop: boolean,
-    bgColor: string,
-    namePrefix: string
+    crop: boolean
   ): Observable<Blob> {
     const formData = new FormData();
     files.forEach(file => formData.append('files', file));
     const params = new URLSearchParams({
-      width: width.toString(),
-      height: height.toString(),
+      width: (width || 0).toString(),
+      height: (height || 0).toString(),
       zip: zip.toString(),
-      quality: quality.toString(),
+      quality: (quality || 0).toString(),
       format,
       grayscale: grayscale.toString(),
       rotate: rotate.toString(),
       flip,
-      crop: crop.toString(),
-      bgColor,
-      namePrefix
+      crop: crop.toString()
     });
     return this.http.post(
       `${environment.apiUrl}api/image/upload?${params.toString()}`,

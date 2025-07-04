@@ -98,3 +98,67 @@ button {
 .preview {
   margin-top: 24px;
 }
+
+.thumbnail-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.thumbnail-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fafafa;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  border: 1px solid #e0e0e0;
+}
+
+.thumbnail-img-wrapper {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumbnail-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  background: #eee;
+  border-radius: 6px;
+}
+
+.thumbnail-img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: #eee;
+}
+
+.thumbnail-caption {
+  text-align: center;
+  font-size: 13px;
+  color: #444;
+}
+
+.thumbnail-name {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 2px;
+  word-break: break-all;
+}
+
+.thumbnail-size {
+  font-size: 12px;
+  color: #888;
+}

@@ -32,11 +32,10 @@
           [(ngModel)]="width"
           name="width"
           min="1"
-          required
           #widthCtrl="ngModel"
         />
         <mat-error *ngIf="widthCtrl.invalid && widthCtrl.touched">
-          Width is required and must be greater than 0.
+          Width should be more than 0.
         </mat-error>
       </mat-form-field>
 
@@ -48,11 +47,10 @@
           [(ngModel)]="height"
           name="height"
           min="1"
-          required
           #heightCtrl="ngModel"
         />
         <mat-error *ngIf="heightCtrl.invalid && heightCtrl.touched">
-          Height is required and must be greater than 0.
+          Height should be more than 0.
         </mat-error>
       </mat-form-field>
     </div>
@@ -80,11 +78,10 @@
           name="quality"
           min="1"
           max="100"
-          required
           #qualityCtrl="ngModel"
         />
         <mat-error *ngIf="qualityCtrl.invalid && qualityCtrl.touched">
-          Quality is required (1-100).
+          Quality should be between 1 to 100.
         </mat-error>
       </mat-form-field>
     </div>
@@ -111,45 +108,25 @@
       </mat-form-field>
     </div>
 
-    <div class="form-group-inline">
-      <mat-form-field appearance="outline">
-        <mat-label>Background Color</mat-label>
-        <input
-          matInput
-          type="text"
-          [(ngModel)]="bgColor"
-          name="bgColor"
-          placeholder="e.g. white, #ff0000"
-          required
-          #bgColorCtrl="ngModel"
-        />
-        <mat-error *ngIf="bgColorCtrl.invalid && bgColorCtrl.touched">
-          Background color is required.
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Prefix</mat-label>
-        <input
-          matInput
-          type="text"
-          [(ngModel)]="namePrefix"
-          name="namePrefix"
-          placeholder="e.g. img"
-          required
-          #prefixCtrl="ngModel"
-        />
-        <mat-error *ngIf="prefixCtrl.invalid && prefixCtrl.touched">
-          Prefix is required.
-        </mat-error>
-      </mat-form-field>
-    </div>
-
     <!-- Checkboxes -->
     <div class="form-group">
-      <mat-checkbox [(ngModel)]="grayscale" name="grayscale" appearance="unfilled">Grayscale</mat-checkbox>
-      <mat-checkbox [(ngModel)]="crop" name="crop" appearance="unfilled">Crop</mat-checkbox>
-      <mat-checkbox [(ngModel)]="zip" name="zip" appearance="unfilled">Download as ZIP</mat-checkbox>
+      <mat-checkbox
+        [(ngModel)]="grayscale"
+        name="grayscale"
+        appearance="unfilled"
+      >Grayscale</mat-checkbox>
+      <mat-checkbox
+        [(ngModel)]="crop"
+        name="crop"
+        appearance="unfilled"
+      >Crop</mat-checkbox>
+      <mat-checkbox
+        [(ngModel)]="zip"
+        name="zip"
+        appearance="unfilled"
+        [checked]="files.length > 1"
+        [disabled]="files.length > 1"
+      >Download as ZIP</mat-checkbox>
     </div>
 
     <!-- Submit -->
@@ -159,8 +136,27 @@
   <!-- Preview -->
   <div *ngIf="files.length > 0" class="preview">
     <h4>📂 Files Selected:</h4>
-    <ul>
-      <li *ngFor="let file of files">{{ file.name }}</li>
-    </ul>
+    <div class="thumbnail-list">
+      <div class="thumbnail-card" *ngFor="let file of files; let i = index">
+        <div class="thumbnail-img-wrapper">
+          <ng-container *ngIf="file.loading; else imgBlock">
+            <div class="thumbnail-loader">
+              <mat-spinner diameter="36"></mat-spinner>
+            </div>
+          </ng-container>
+          <ng-template #imgBlock>
+            <img
+              [src]="file.preview"
+              [alt]="file.name"
+              class="thumbnail-img"
+            />
+          </ng-template>
+        </div>
+        <div class="thumbnail-caption">
+          <span class="thumbnail-name">{{ file.name }}</span>
+          <span class="thumbnail-size">{{ file.size | number }} bytes</span>
+        </div>
+      </div>
+    </div>
   </div>
 </mat-card>
