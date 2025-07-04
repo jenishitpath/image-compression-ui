@@ -1,13 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Image } from '../shared/services/image';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-home',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatCardModule
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss'
@@ -26,38 +39,32 @@ export class Home {
   bgColor = 'white';
   namePrefix = 'img';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private imageService: Image) { }
 
   onFileChange(event: any) {
     this.files = Array.from(event.target.files);
   }
 
-  uploadImages() {
-    if (this.files.length === 0) {
-      alert("Please select at least one image.");
+  uploadImages(imgForm: NgForm) {
+    if (imgForm.invalid) {
+      imgForm.control.markAllAsTouched();
       return;
     }
 
-    const formData = new FormData();
-    this.files.forEach(file => formData.append('files', file));
-
-    const params = new URLSearchParams({
-      width: this.width.toString(),
-      height: this.height.toString(),
-      zip: this.zip.toString(),
-      quality: this.quality.toString(),
-      format: this.format,
-      grayscale: this.grayscale.toString(),
-      rotate: this.rotate.toString(),
-      flip: this.flip,
-      crop: this.crop.toString(),
-      bgColor: this.bgColor,
-      namePrefix: this.namePrefix
-    });
-
-    this.http.post(`https://localhost:7030/api/image/upload?${params.toString()}`, formData, {
-      responseType: 'blob'
-    }).subscribe(blob => {
+    this.imageService.uploadImages(
+      this.files,
+      this.width,
+      this.height,
+      this.zip,
+      this.quality,
+      this.format,
+      this.grayscale,
+      this.rotate,
+      this.flip,
+      this.crop,
+      this.bgColor,
+      this.namePrefix
+    ).subscribe(blob => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

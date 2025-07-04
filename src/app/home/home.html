@@ -1,70 +1,159 @@
-<div class="container">
+<mat-card>
   <h2>🖼️ Image Compression & Resizing Tool</h2>
 
-  <form (submit)="uploadImages()" class="upload-form">
+  <form (submit)="uploadImages(imgForm)" class="upload-form" #imgForm="ngForm">
     <!-- File Upload -->
-    <div class="form-group">
-      <label>Select Image(s)</label>
-      <input type="file" (change)="onFileChange($event)" multiple accept="image/*" />
+    <div class="file-upload-group">
+      <label for="file-upload" class="mat-label">Select Image(s) <span style="color:red">*</span></label>
+      <input
+        id="file-upload"
+        type="file"
+        (change)="onFileChange($event)"
+        multiple
+        accept="image/*"
+        class="file-input"
+        required
+        #fileInput="ngModel"
+        [ngModel]="files"
+        name="files"
+      />
+      <mat-error *ngIf="fileInput.invalid && fileInput.touched">
+        Please select at least one image.
+      </mat-error>
     </div>
 
     <!-- Width & Height -->
     <div class="form-group-inline">
-      <label>Width</label>
-      <input type="number" [(ngModel)]="width" name="width" min="1" />
+      <mat-form-field appearance="outline">
+        <mat-label>Width</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="width"
+          name="width"
+          min="1"
+          required
+          #widthCtrl="ngModel"
+        />
+        <mat-error *ngIf="widthCtrl.invalid && widthCtrl.touched">
+          Width is required and must be greater than 0.
+        </mat-error>
+      </mat-form-field>
 
-      <label>Height</label>
-      <input type="number" [(ngModel)]="height" name="height" min="1" />
+      <mat-form-field appearance="outline">
+        <mat-label>Height</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="height"
+          name="height"
+          min="1"
+          required
+          #heightCtrl="ngModel"
+        />
+        <mat-error *ngIf="heightCtrl.invalid && heightCtrl.touched">
+          Height is required and must be greater than 0.
+        </mat-error>
+      </mat-form-field>
     </div>
 
     <!-- Format & Quality -->
     <div class="form-group-inline">
-      <label>Format</label>
-      <select [(ngModel)]="format" name="format">
-        <option value="jpg">JPG</option>
-        <option value="png">PNG</option>
-        <option value="webp">WEBP</option>
-      </select>
+      <mat-form-field appearance="outline">
+        <mat-label>Format</mat-label>
+        <mat-select [(ngModel)]="format" name="format" required #formatCtrl="ngModel">
+          <mat-option value="jpg">JPG</mat-option>
+          <mat-option value="png">PNG</mat-option>
+          <mat-option value="webp">WEBP</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formatCtrl.invalid && formatCtrl.touched">
+          Format is required.
+        </mat-error>
+      </mat-form-field>
 
-      <label>Quality</label>
-      <input type="number" [(ngModel)]="quality" name="quality" min="1" max="100" />
+      <mat-form-field appearance="outline">
+        <mat-label>Quality</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="quality"
+          name="quality"
+          min="1"
+          max="100"
+          required
+          #qualityCtrl="ngModel"
+        />
+        <mat-error *ngIf="qualityCtrl.invalid && qualityCtrl.touched">
+          Quality is required (1-100).
+        </mat-error>
+      </mat-form-field>
     </div>
 
     <!-- Additional Options -->
     <div class="form-group-inline">
-      <label>Rotate</label>
-      <select [(ngModel)]="rotate" name="rotate">
-        <option [value]="0">None</option>
-        <option [value]="90">90°</option>
-        <option [value]="180">180°</option>
-        <option [value]="270">270°</option>
-      </select>
+      <mat-form-field appearance="outline">
+        <mat-label>Rotate</mat-label>
+        <mat-select [(ngModel)]="rotate" name="rotate">
+          <mat-option [value]="0">None</mat-option>
+          <mat-option [value]="90">90°</mat-option>
+          <mat-option [value]="180">180°</mat-option>
+          <mat-option [value]="270">270°</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-      <label>Flip</label>
-      <select [(ngModel)]="flip" name="flip">
-        <option [value]="''">None</option>
-        <option value="horizontal">Horizontal</option>
-        <option value="vertical">Vertical</option>
-      </select>
+      <mat-form-field appearance="outline">
+        <mat-label>Flip</mat-label>
+        <mat-select [(ngModel)]="flip" name="flip">
+          <mat-option [value]="''">None</mat-option>
+          <mat-option value="horizontal">Horizontal</mat-option>
+          <mat-option value="vertical">Vertical</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div class="form-group-inline">
-      <label>Background Color</label>
-      <input type="text" [(ngModel)]="bgColor" name="bgColor" placeholder="e.g. white, #ff0000" />
+      <mat-form-field appearance="outline">
+        <mat-label>Background Color</mat-label>
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="bgColor"
+          name="bgColor"
+          placeholder="e.g. white, #ff0000"
+          required
+          #bgColorCtrl="ngModel"
+        />
+        <mat-error *ngIf="bgColorCtrl.invalid && bgColorCtrl.touched">
+          Background color is required.
+        </mat-error>
+      </mat-form-field>
 
-      <label>Prefix</label>
-      <input type="text" [(ngModel)]="namePrefix" name="namePrefix" placeholder="e.g. img" />
+      <mat-form-field appearance="outline">
+        <mat-label>Prefix</mat-label>
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="namePrefix"
+          name="namePrefix"
+          placeholder="e.g. img"
+          required
+          #prefixCtrl="ngModel"
+        />
+        <mat-error *ngIf="prefixCtrl.invalid && prefixCtrl.touched">
+          Prefix is required.
+        </mat-error>
+      </mat-form-field>
     </div>
 
     <!-- Checkboxes -->
     <div class="form-group">
-      <label><input type="checkbox" [(ngModel)]="grayscale" name="grayscale" /> Grayscale</label>
-      <label><input type="checkbox" [(ngModel)]="crop" name="crop" /> Crop</label>
-      <label><input type="checkbox" [(ngModel)]="zip" name="zip" /> Download as ZIP</label>
+      <mat-checkbox [(ngModel)]="grayscale" name="grayscale" appearance="unfilled">Grayscale</mat-checkbox>
+      <mat-checkbox [(ngModel)]="crop" name="crop" appearance="unfilled">Crop</mat-checkbox>
+      <mat-checkbox [(ngModel)]="zip" name="zip" appearance="unfilled">Download as ZIP</mat-checkbox>
     </div>
 
     <!-- Submit -->
-    <button type="submit">🚀 Upload & Convert</button>
+    <button mat-raised-button color="primary" type="submit">🚀 Upload & Convert</button>
   </form>
 
   <!-- Preview -->
@@ -74,4 +163,4 @@
       <li *ngFor="let file of files">{{ file.name }}</li>
     </ul>
   </div>
-</div>
+</mat-card>

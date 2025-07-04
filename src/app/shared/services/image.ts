@@ -9,12 +9,37 @@ import { Observable } from 'rxjs';
 export class Image {
   constructor(private http: HttpClient) {}
 
-  uploadImages(files: File[], width: number, height: number, zip: boolean): Observable<Blob> {
+  uploadImages(
+    files: File[],
+    width: number,
+    height: number,
+    zip: boolean,
+    quality: number,
+    format: string,
+    grayscale: boolean,
+    rotate: number,
+    flip: string,
+    crop: boolean,
+    bgColor: string,
+    namePrefix: string
+  ): Observable<Blob> {
     const formData = new FormData();
     files.forEach(file => formData.append('files', file));
-    const queryParams = `?width=${width}&height=${height}&zip=${zip}`;
+    const params = new URLSearchParams({
+      width: width.toString(),
+      height: height.toString(),
+      zip: zip.toString(),
+      quality: quality.toString(),
+      format,
+      grayscale: grayscale.toString(),
+      rotate: rotate.toString(),
+      flip,
+      crop: crop.toString(),
+      bgColor,
+      namePrefix
+    });
     return this.http.post(
-      `${environment.apiUrl}api/image/upload${queryParams}`,
+      `${environment.apiUrl}api/image/upload?${params.toString()}`,
       formData,
       { responseType: 'blob' }
     );
